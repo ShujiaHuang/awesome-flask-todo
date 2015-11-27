@@ -1,0 +1,61 @@
+<h1>awesome flask todo</h1>
+<hr>
+<form class = "input-group" action = "/add" method = "post">
+    {{ form.hidden_tag() }}
+    {{ form.content(class = "form-control") }}
+    <span class = "input-group-btn">
+        <button class = "btn btn-primary" type = "submit">Add</button>
+    </span>
+</form>
+{% for error in form.errors.content %}
+<div class = "flash alter-danger"><span>{{ error }}</span></div>
+{% endfor %}
+
+<div>
+<h2>Todo List</h2>
+{% if todos %}
+    <table class = "table">
+        <thead>
+
+            <link href="/static/css/bootstrap.min.css" rel="stylesheet" media="screen">
+            <link href="/static/css/bootstrap-responsive.min.css" rel="stylesheet">
+            <script src="/static/js/bootstrap.min.js"></script>
+            <script src="http://code.jquery.com/jquery-latest.js"></script>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+            <tr>
+                <td>Content</td>
+                <td>Time</td>
+                <td>Operation</td>
+            </tr>
+        </thead>
+        <tbody>
+        {% for t in todos %}
+            {% if t.status == 0 %}
+            <tr class = "info">
+                <td>{{ t.content }}</td>
+                <td>{{ t.time.strftime('%H:%M %d-%m-%y') }}</td>
+                <td>
+                    <a href = "/done/{{t.id}}" class = "btn btn-primary">Done</a>
+                    <a href = "/delete/{{t.id}}" class = "btn btn-primary">Delete</a>
+                </td>
+            </tr>
+            {% else %}
+            <tr class = "danger">
+                <td id = "center">{{ t.content }}</td>
+                <td>{{ t.time.strftime('%H:%M %d-%m-%y') }}</td>
+                <td>
+                    <a href = "/undone/{{t.id}}" class = "btn btn-primary">Undone</a>
+                    <a href = "/delete/{{t.id}}" class = "btn btn-primary">Delete</a>
+                </td>
+            </tr>
+
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% else %}
+    <h3 class = "test-info">No todos, please add</h3>
+{% endif %}
+</div>
